@@ -48,7 +48,9 @@ print("Trying to get model: ", model_id, flush=True)
 try:
 	model = kipoi.get_model(model_id)
 except:
-	print("Failed to process model_id")
+	print("Failed to get the model from ", model_id)
+	with open(os.path.join(os.path.expanduser(data_prefix), "failed_models", model_id),'w') as f:
+		print("failed, retry")
 
 print("Loaded the model", flush=True)
 
