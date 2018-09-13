@@ -32,7 +32,7 @@ def determine_human_vs_mouse(line):
 tf_line = sys.argv[1]
 
 # Bookeeping for input, output resolution
-model_prefix = determine_human_vs_mouse(line)
+model_prefix = determine_human_vs_mouse(tf_line)
 data_prefix = "~/projects/revisions/bindspace_revisions/deepbind/data"
 output_prefix = "~/projects/revisions/bindspace_revisions/deepbind/outputs"
 
