@@ -3,7 +3,7 @@ import os
 import sys
 import time
 from dataloader import TruncSeqDataset as DL
-import pdb
+
 
 def process_id(line):
 	line = line.strip()
@@ -24,8 +24,8 @@ tf_line = sys.argv[1]
 
 # Bookeeping for input, output resolution
 model_prefix = "DeepBind/Homo_sapiens/TF/"
-data_prefix = "~/projects/revisions/deepbind/data"
-output_prefix = "~/projects/revisions/deepbind/outputs"
+data_prefix = "~/projects/revisions/bindspace_revisions/deepbind/data"
+output_prefix = "~/projects/revisions/bindspace_revisions/deepbind/outputs"
 
 k562_atlas_bed = os.path.join(os.path.expanduser(data_prefix), "K562_atac.bed")
 k562_atlas_fasta = os.path.join(os.path.expanduser(data_prefix), "fixed_atac.fasta")
@@ -49,31 +49,14 @@ dl_kwargs = {'intervals_file': k562_atlas_bed, 'fasta_file': k562_atlas_fasta}
 # Option 1: use data loader instantiation of an iterator directly
 dl = DL(**dl_kwargs)
 
-#dl = model.default_dataloader(**dl_kwargs)
-
 t0 = time.time()
 with open(output_file, 'w') as outfile:
-	pdb.set_trace()
 	batch_iter = dl.batch_iter(batch_size=128)
 	for batch in batch_iter:
 		preds = model.predict_on_batch(batch['inputs'])
-		try:
-			print("preds returns ", type(preds), flush=True)
-			for p in preds:
-				print(p, file=outfile)
-		except:
-			print("Cannot iterate through preds in the naive way")
+		for p in preds:
+			print(p, file=outfile)
 t1 = time.time()
-
-#with dl.batch_iter(batch_size=128) as batch_iter, open(output_file, 'w') as outfile:
-#	for batch in batch_iter:
-#		preds = model.predict_on_batch(batch['inputs'])
-#		try:
-#			print("preds returns ", type(preds), flush=True)
-#			for p in preds:
-#				print(p, file=outfile)
-#		except:
-#			print("Cannot iterate through preds in the naive way")
 
 print("Took ", t1 - t0, "s to complete", flush=True)
 

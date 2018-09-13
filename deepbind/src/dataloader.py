@@ -61,7 +61,7 @@ class TruncSeqDataset(Dataset):
         ''' convert a PyBedTools interval to Fasta string 
         id, for searching an associated .fasta file
         with PyFaidx '''
-        return interval.chrom + ":" + interval.start + "-" + interval.stop
+        return interval.chrom + ":" + str(interval.start) + "-" + str(interval.stop)
     
     def _compute_relative_coords(self, interval):
         ''' convert an absolute sequence interval into a relative one, and
@@ -71,7 +71,7 @@ class TruncSeqDataset(Dataset):
         start = 0
         end = interval.end - interval.start
         
-        midpoint = end - start // 2
+        midpoint = (end - start) // 2
         new_start = midpoint - 50
         new_stop = midpoint + 51
     
@@ -96,7 +96,7 @@ class TruncSeqDataset(Dataset):
         seq = record[start:end].seq
         
         return {
-            "inputs": encodeDNA(seq),
+            "inputs": encodeDNA([seq]).squeeze(),
             "targets": y,
             "metadata": {
                 "ranges": GenomicRanges.from_interval(interval)
