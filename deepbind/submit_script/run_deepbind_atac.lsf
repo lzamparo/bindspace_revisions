@@ -7,7 +7,10 @@
 #BSUB -eo %J.stderr
 
 # set up env, cd to source
-cd ~/projects/revisions/deepbind/src
+cd ~/projects/revisions/bindspace_revisions/deepbind/src
+
+# load the kipoi environment
+source activate kipoi
 
 # run model
 python run_deepbind.py $model
