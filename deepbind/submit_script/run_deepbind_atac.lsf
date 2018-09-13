@@ -1,0 +1,13 @@
+#!/bin/bash
+#BSUB -J deepbind_k562_atac_run
+#BSUB -n 1
+#BSUB -R "rusage[mem=8] span[ptile=1]"
+#BSUB -W 2:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+
+# set up env, cd to source
+cd ~/projects/revisions/deepbind/src
+
+# run model
+python run_deepbind.py $model
