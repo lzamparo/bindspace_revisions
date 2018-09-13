@@ -19,11 +19,20 @@ def generate_output_file(line):
 	_, tf_name = parts
 	return tf_name + "_outputs.txt"
 
+def determine_human_vs_mouse(line):
+	line = line.strip()
+	parts = line.split("_#_")
+	_, tf_name = parts
+	if tf_name.isupper():
+		return "DeepBind/Homo_sapiens/TF/"
+	else:
+		return "DeepBind/Mus_musculus/TF/"
+
 # Parse argv to get the model specification
 tf_line = sys.argv[1]
 
 # Bookeeping for input, output resolution
-model_prefix = "DeepBind/Homo_sapiens/TF/"
+model_prefix = determine_human_vs_mouse(line)
 data_prefix = "~/projects/revisions/bindspace_revisions/deepbind/data"
 output_prefix = "~/projects/revisions/bindspace_revisions/deepbind/outputs"
 
